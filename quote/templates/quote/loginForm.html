@@ -1,0 +1,5 @@
+<form novalidate method="POST">
+    {{form.as_p}}
+    <input class='btn btn-primary' type='submit' name='loginUser' value='Bejelentkezés' />
+    {% csrf_token %}
+</form>

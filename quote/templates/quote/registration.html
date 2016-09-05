@@ -1,0 +1,11 @@
+{% extends "quote/main.html" %}
+
+{% block content %}
+
+<form novalidate action='' method="POST" >
+    {{form.as_p}}
+    {% csrf_token %}
+    <input type='submit' name='register' value='Regisztráció' class='btn btn-primary' />
+</form>
+
+{% endblock %}
