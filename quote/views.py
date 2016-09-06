@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request, idcategory = -1):
 
-    quotes = Quote.objects.all()
+    quotes = Quote.objects.all().order_by('-id')
     if(idcategory != -1):
         quotes = quotes.filter(category__id = idcategory)
 
@@ -35,17 +35,17 @@ def logoutUser(request):
 def registration(request):
     form = RegistrationForm()
 
-    print(request.user);
+    registerSuccess = False
 
     if(request.method == "POST"):
         if 'register' in request.POST:
             form = RegistrationForm(request.POST)
             if(form.is_valid()):
                 form_data=name=form.cleaned_data
-                UserFunctions().registerUser(form_data['username'], form_data['email'], form_data['password1'])
+                registerSuccess = UserFunctions().registerUser(form_data['username'], form_data['email'], form_data['password1'])
                 form = RegistrationForm
 
-    return render(request, 'quote/registration.html', {'form': form})
+    return render(request, 'quote/registration.html', {'form': form, 'success': registerSuccess})
 
 def addQuote(request):
     if(not request.user.is_authenticated):

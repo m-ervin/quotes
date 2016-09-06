@@ -12,7 +12,7 @@ class UserProfile(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=20)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Quote(models.Model):
@@ -21,5 +21,5 @@ class Quote(models.Model):
     quote = models.CharField(max_length=500)
     author = models.CharField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.quote[:50]

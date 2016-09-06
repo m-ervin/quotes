@@ -1,10 +1,12 @@
 {% extends "quote/main.html" %}
 
+{% block title %}Kategóriák{% endblock %}
+
 {% block content %}
 
 <div id='category-page'>
     {% for category in categories %}
-    <a  href='{% url 'homepage_category' category.id %}' class='panel panel-default category-link'>
+    <a  href='{% url 'homepage_category' category.id %}{{category.name|urlencode|lower}}' class='panel panel-default category-link'>
         {{category.name}}
     </a>
     {% endfor %}

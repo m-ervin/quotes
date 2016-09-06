@@ -43,9 +43,10 @@ class RegistrationForm(forms.Form):
 class AddQuoteForm(forms.Form):
 
     categories=Category.objects.all()
-    category = forms.ModelChoiceField(label = 'Kategória',queryset = categories, initial = 0)
+    category = forms.ModelChoiceField(label = 'Kategória', queryset = categories, initial = 0)
     quote = forms.CharField(label = 'Idézet',  help_text = '*', validators = [MaxLengthValidator(500, message = 'max 500 karakter')], widget = forms.Textarea())
     author = forms.CharField(label = 'Szerző', max_length = 50, required = False, widget=forms.TextInput(attrs={'placeholder': 'Ismeretlen'}))
+
 
     def __init__(self, *args, **kwargs):
         super(AddQuoteForm, self).__init__(*args, **kwargs)

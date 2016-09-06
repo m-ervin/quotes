@@ -1,5 +1,7 @@
 {% extends "quote/main.html" %}
 
+{% block title %}Regisztráció{% endblock %}
+
 {% block content %}
 
 <form id='registrationForm' novalidate action='' method="POST" >
@@ -13,5 +15,8 @@
     {% csrf_token %}
     <input type='submit' name='register' value='Regisztráció' class='btn btn-primary' />
 </form>
+{% if success %}
+    <div class='alert success'>Sikeres regisztráció</div>
+{% endif %}
 
 {% endblock %}

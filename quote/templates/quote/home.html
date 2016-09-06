@@ -1,11 +1,23 @@
 {% extends "quote/main.html" %}
 
+{% block title %}Idézetek{% endblock %}
+
 {% block content %}
 
 {% for quote in quotes %}
 <div class='quote-container'>
     <q class='quote-text'>{{quote.quote}}</q>
     <div class='quote-author'>{{quote.author}}</div>
+    {% if quote.user == request.user %}
+        <div class="dropdown quote-option-menu">
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button"
+            data-toggle="dropdown"><i class='fa fa-bars'></i></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Módosítás</a></li>
+                    <li><a href="#">Törlés</a></li>
+                </ul>
+       </div>
+    {% endif %}
 </div>
 {% endfor %}
 
