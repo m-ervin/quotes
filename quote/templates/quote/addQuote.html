@@ -14,5 +14,8 @@
     <input class='btn btn-primary' type ='submit' name='addQuote' value='Küldés' />
     {% csrf_token %}
 </form>
+    {% if success == True %}
+        <br /><div class='alert alert-success'>Az idézet sikeresen létrehozva</div>
+    {% endif %}
 
 {% endblock %}

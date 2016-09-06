@@ -10,6 +10,7 @@ class QuoteFunctions(object):
             author = 'Ismeretlen'
         q = Quote(category = category, quote = quote, author = author, user = user)
         q.save()
+        return True
 
         # subject = 'Aktivációs email'
         # message = 'aktivacio'

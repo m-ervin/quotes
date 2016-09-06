@@ -1,13 +1,28 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from .forms import RegistrationForm, AddQuoteForm
 from .functions.userFunctions import UserFunctions
 from .functions.quoteFunctions import QuoteFunctions
+from .models import Quote, Category
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def home(request):
-    return render(request, 'quote/home.html')
+    quotes=Quote.objects.all()
+    paginator=Paginator(quotes,5) #hány darab legyen oldalanként
+
+    page=request.GET.get('page')
+    try:
+        quotes=paginator.page(page)
+    except PageNotAnInteger:
+        quotes=paginator.page(1)
+    except EmptyPage: # pl. ha túl nagy az oldalszám
+        quotes=paginator.page(paginator.num_pages)
+
+    return render(request, 'quote/home.html', {'quotes': quotes})
 
 def logoutUser(request):
     logout(request)
@@ -38,7 +53,7 @@ def addQuote(request):
             form = AddQuoteForm(request.POST)
             if(form.is_valid()):
                 form_data=name=form.cleaned_data
-                QuoteFunctions().addQuote( request.user, form_data['category'], form_data['quote'], form_data['author'])
+                addQuoteSuccess = QuoteFunctions().addQuote( request.user, form_data['category'], form_data['quote'], form_data['author'])
                 form = AddQuoteForm
 
-    return render(request, 'quote/addQuote.html', {'form': form})
+    return render(request, 'quote/addQuote.html', {'form': form, 'success': addQuoteSuccess })
