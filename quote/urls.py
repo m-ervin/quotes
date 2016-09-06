@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^$', views.home, name="homepage"),
     url(r'^kijelentkezes/$', views.logoutUser, name="logout"),
     url(r'^regisztracio/$', views.registration, name='registration'),
-    url(r'^uj_idezet/$', views.addQuote, name="addQoute")
+    url(r'^uj_idezet/$', views.addQuote, name="addQoute"),
+    url(r'^kategoriak/$', views.categories, name="categories")
 ]

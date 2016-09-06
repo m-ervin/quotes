@@ -2,6 +2,7 @@ $errorColor : darkred;
 $backgroundColor: #eee;
 $color1: #ccc;
 $color2: #456aa7;
+$color3: #15142e;
 
 #main-container{
     margin: 20px auto;
@@ -50,7 +51,6 @@ $color2: #456aa7;
 }
 
 #add-quote-form{
-
     label{
         width: 150px;
     }
@@ -72,4 +72,18 @@ $color2: #456aa7;
     .quote-author{
         color: $color2;
     }
+}
+
+
+#category-page{
+
+    .category-link{
+        display:block;
+        height:50px;
+        color: $color3;
+        text-decoration: none;
+        line-height: 50px;
+        padding-left: 20px;
+    }
+
 }

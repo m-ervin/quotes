@@ -37,6 +37,7 @@
             <nav class='navbar navbar-inverse'>
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'homepage' %}">Idézetek</a></li>
+                    <li><a href="{% url 'categories' %}">Kategóriák</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
                     {% endif %}

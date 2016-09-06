@@ -47,6 +47,7 @@ def addQuote(request):
     if(not request.user.is_authenticated):
         return redirect('homepage')
 
+    addQuoteSuccess = False
     form = AddQuoteForm()
     if(request.method == "POST"):
         if 'addQuote' in request.POST:
@@ -57,3 +58,7 @@ def addQuote(request):
                 form = AddQuoteForm
 
     return render(request, 'quote/addQuote.html', {'form': form, 'success': addQuoteSuccess })
+
+def categories(request):
+    categories = Category.objects.all().order_by("name")
+    return render(request, 'quote/categories.html', {'categories': categories})
