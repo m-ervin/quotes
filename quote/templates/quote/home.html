@@ -4,7 +4,8 @@
 
 {% for quote in quotes %}
 <div class='quote-container'>
-    {{quote.quote}}
+    <q class='quote-text'>{{quote.quote}}</q>
+    <div class='quote-author'>{{quote.author}}</div>
 </div>
 {% endfor %}
 

@@ -1,11 +1,16 @@
 $errorColor : darkred;
 $backgroundColor: #eee;
+$color1: #ccc;
+$color2: #456aa7;
 
 #main-container{
     margin: 20px auto;
     width:1000px;
-    padding:20px;
     background-color: $backgroundColor;
+}
+
+#content-container{
+    padding: 20px;
 }
 
 #header{
@@ -56,4 +61,15 @@ $backgroundColor: #eee;
         height:100px;
     }
 
+}
+
+.quote-container{
+    background-color: $color1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+
+    .quote-author{
+        color: $color2;
+    }
 }
