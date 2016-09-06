@@ -8,3 +8,18 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.name
+
+class Quote(models.Model):
+    category = models.ForeignKey(Category)
+    user = models.ForeignKey(User)
+    quote = models.CharField(max_length=500)
+    author = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.quote[:50]

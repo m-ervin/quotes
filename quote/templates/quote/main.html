@@ -15,19 +15,33 @@
     <link rel="stylesheet" href={% static 'quote/css/style.min.css' %} >
   </head>
   <body>
+      <div id='header'>
+          {% if request.user.is_authenticated %}
+              <div class='logged-in-user'>
+                  Bejelentkezve: <span class='username'>{{request.user.username}}</span>
+                  <a href='{% url 'logout' %}' class='btn btn-primary'>Kijelentkezés</a>
+              </div>
+          {% else %}
+              <div class='login-form'>
+                  {% login_form %}
+              </div>
+              <a href='{% url 'registration' %}' class='btn btn-primary registration-button'>Regisztráció</a>
+              {% if request.loginError == True %}
+                  <span class='error1'>Sikertelen bejelentkezés. Rossz jelszó vagy felhasználónév</span>
+              {% endif %}
+          {% endif %}
+      </div>
+
     <div id='main-container'>
-        <div id='header'>
-            {% if request.user.is_authenticated %}
-                <div class='logged-in-user'>
-                    Bejelentkezve: <span class='username'>{{request.user.username}}</span>
-                    <a href='{% url 'logout' %}' class='btn btn-primary'>Kijelentkezés</a>
-                </div>
-            {% else %}
-                <div class='login-form'>
-                    {% login_form %}
-                </div>
-                <a href='{% url 'registration' %}' class='btn btn-primary registration-button'>Regisztráció</a>
-            {% endif %}
+        <div id='menu-container'>
+            <nav class='navbar navbar-default'>
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'homepage' %}">Idézetek</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
         <div id='content-container'>
           {% block content %}{% endblock %}

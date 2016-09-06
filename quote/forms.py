@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
-from django.core.validators import EmailValidator, RegexValidator
+from django.core.validators import EmailValidator, RegexValidator, MaxLengthValidator
 from django.contrib.auth.models import User
+from .models import Category
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Felhasználónév', max_length=30)
@@ -19,7 +22,7 @@ class RegistrationForm(forms.Form):
             self.add_error('email','Ez az email cím már használatban van')
 
         if User.objects.filter(username=self.cleaned_data.get('username')).exists():
-            self.add_error('username','Ilyen felhasználónevű felhasználó már létezik')                      
+            self.add_error('username','Ilyen felhasználónevű felhasználó már létezik')
 
         return self.cleaned_data
 
@@ -34,4 +37,19 @@ class RegistrationForm(forms.Form):
 
         for field in self.fields.values():
             field.error_messages = {'required':'Nem lehet üres mező'.format(
-                fieldname=field.label)}
+                fieldname = field.label)}
+
+
+class AddQuoteForm(forms.Form):
+
+    categories=Category.objects.all()
+    category = forms.ModelChoiceField(label = 'Kategória',queryset = categories, initial = 0)
+    quote = forms.CharField(label = 'Idézet',  help_text = '*', validators = [MaxLengthValidator(500, message = 'max 500 karakter')], widget = forms.Textarea())
+    author = forms.CharField(label = 'Szerző', max_length = 50, required = False, widget=forms.TextInput(attrs={'placeholder': 'Ismeretlen'}))
+
+    def __init__(self, *args, **kwargs):
+        super(AddQuoteForm, self).__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.error_messages = {'required':'Nem lehet üres mező'.format(
+                fieldname = field.label)}

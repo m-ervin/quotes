@@ -18,6 +18,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home, name="homepage"),
-    url(r'^logout/$', views.logoutUser, name="logout"),
-    url(r'^registration/$', views.registration, name='registration')
+    url(r'^kijelentkezes/$', views.logoutUser, name="logout"),
+    url(r'^regisztracio/$', views.registration, name='registration'),
+    url(r'^uj_idezet/$', views.addQuote, name="addQoute")
 ]

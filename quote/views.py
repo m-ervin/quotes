@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .forms import RegistrationForm
+from .forms import RegistrationForm, AddQuoteForm
 from .functions.userFunctions import UserFunctions
+from .functions.quoteFunctions import QuoteFunctions
 # Create your views here.
 
 def home(request):
@@ -15,11 +16,29 @@ def logoutUser(request):
 def registration(request):
     form = RegistrationForm()
 
+    print(request.user);
+
     if(request.method == "POST"):
-        form = RegistrationForm(request.POST)
-        if(form.is_valid()):
-            form_data=name=form.cleaned_data
-            UserFunctions.registerUser(form_data['username'], form_data['email'], form_data['password1'])
-            form = RegistrationForm
+        if 'register' in request.POST:
+            form = RegistrationForm(request.POST)
+            if(form.is_valid()):
+                form_data=name=form.cleaned_data
+                UserFunctions().registerUser(form_data['username'], form_data['email'], form_data['password1'])
+                form = RegistrationForm
 
     return render(request, 'quote/registration.html', {'form': form})
+
+def addQuote(request):
+    if(not request.user.is_authenticated):
+        return redirect('homepage')
+
+    form = AddQuoteForm()
+    if(request.method == "POST"):
+        if 'addQuote' in request.POST:
+            form = AddQuoteForm(request.POST)
+            if(form.is_valid()):
+                form_data=name=form.cleaned_data
+                QuoteFunctions().addQuote( request.user, form_data['category'], form_data['quote'], form_data['author'])
+                form = AddQuoteForm
+
+    return render(request, 'quote/addQuote.html', {'form': form})

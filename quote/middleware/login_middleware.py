@@ -11,7 +11,7 @@ class LoginMiddleware(MiddlewareMixin):
                 if (user is not None):
                     login(request, user)
                 else:
-                    print ('not logged in')
+                    request.loginError = True
 
 
         return
