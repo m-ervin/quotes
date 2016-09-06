@@ -10,17 +10,21 @@ from .models import Quote, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
-def home(request):
-    quotes=Quote.objects.all()
-    paginator=Paginator(quotes,5) #hány darab legyen oldalanként
+def home(request, idcategory = -1):
 
-    page=request.GET.get('page')
+    quotes = Quote.objects.all()
+    if(idcategory != -1):
+        quotes = quotes.filter(category__id = idcategory)
+
+    paginator = Paginator(quotes,5) #hány darab legyen oldalanként
+
+    page = request.GET.get('page')
     try:
-        quotes=paginator.page(page)
+        quotes = paginator.page(page)
     except PageNotAnInteger:
-        quotes=paginator.page(1)
+        quotes = paginator.page(1)
     except EmptyPage: # pl. ha túl nagy az oldalszám
-        quotes=paginator.page(paginator.num_pages)
+        quotes = paginator.page(paginator.num_pages)
 
     return render(request, 'quote/home.html', {'quotes': quotes})
 
