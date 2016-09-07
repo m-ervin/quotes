@@ -49,6 +49,13 @@
     font-size: 14px; }
     .quote-container .category-link-container a {
       color: #5e5d5e !important; }
+  .quote-container .favorite-button {
+    cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    right: 15px; }
+    .quote-container .favorite-button i {
+      font-size: 20px; }
   .quote-container .quote-option-menu {
     position: absolute;
     top: 10px;

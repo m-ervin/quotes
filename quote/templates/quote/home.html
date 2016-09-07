@@ -11,6 +11,7 @@
     </div>
     <q class='quote-text'>{{quote.quote}}</q>
     <div class='quote-author'>{{quote.author}}</div>
+
     {% if quote.user == request.user %}
         <div class="dropdown quote-option-menu">
             <button class="btn btn-sm btn-default dropdown-toggle" type="button"
@@ -28,6 +29,14 @@
                 </ul>
        </div>
     {% endif %}
+
+    <div class='favorite-button' data-idquote="{{quote.id}}">
+        {% if quote.favorited %}
+            <i class='fa fa-heart'></i>
+        {% else %}
+            <i class='fa fa-heart-o'></i>
+        {% endif %}
+    </div>
 </div>
 {% endfor %}
 
@@ -48,5 +57,33 @@
             <li><a href="?page={{ quotes.next_page_number }}">&gt;&gt;</a></li>
         {% endif %}
 </ul>
+
+
+<script type='text/javascript'>
+    $('.favorite-button').click(function(){
+        let el = $(this).find('i');
+        let id = $(this).data('idquote');
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: "{% url 'addToFavorites' %}",
+            data: {
+                idquote: id,
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            success: function(response){
+                if(response.state){
+                    el.addClass('fa-heart');
+                    el.removeClass('fa-heart-o')
+                }
+                else {
+                    el.addClass('fa-heart-o');
+                    el.removeClass('fa-heart')
+                }
+            }
+        });
+    })
+</script>
+
 
 {% endblock %}

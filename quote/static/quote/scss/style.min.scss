@@ -85,6 +85,17 @@ $color4: #5e5d5e;
         }
     }
 
+    .favorite-button{
+        cursor: pointer;
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+
+        i{
+            font-size: 20px;
+        }
+    }
+
     .quote-option-menu{
         position: absolute;
         top: 10px;

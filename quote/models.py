@@ -23,3 +23,10 @@ class Quote(models.Model):
 
     def __unicode__(self):
         return self.quote[:50]
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User)
+    quote = models.ForeignKey(Quote)
+
+    def __unicode__(self):
+        return self.user.username + " - " + self.quote.quote[:50]

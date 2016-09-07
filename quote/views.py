@@ -6,14 +6,16 @@ from django.shortcuts import redirect
 from .forms import RegistrationForm, QuoteForm
 from .functions.userFunctions import UserFunctions
 from .functions.quoteFunctions import QuoteFunctions
-from .models import Quote, Category
+from .models import Quote, Category, Favorite
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.models import model_to_dict
+from django.http import JsonResponse
+import json
 # Create your views here.
 
 def home(request, idcategory = -1):
 
-    quotes = Quote.objects.all().order_by('-id')
+    quotes = Quote.objects.all().order_by('-id').select_related()
     if(idcategory != -1):
         quotes = quotes.filter(category__id = idcategory)
 
@@ -26,6 +28,10 @@ def home(request, idcategory = -1):
         quotes = paginator.page(1)
     except EmptyPage: # pl. ha túl nagy az oldalszám
         quotes = paginator.page(paginator.num_pages)
+
+    for quote in quotes:
+        favorited = Favorite.objects.filter(user=request.user, quote= quote).exists()
+        quote.favorited = favorited
 
     return render(request, 'quote/home.html', {'quotes': quotes})
 
@@ -93,3 +99,16 @@ def deleteQuote(request):
         idQuote = request.POST.get('id','')
         deleteSuccess = QuoteFunctions().deleteQuote(request.user, idQuote)
     return redirect(next)
+
+def addToFavorites(request):
+    if(not request.user.is_authenticated):
+        redirect('homepage')
+
+    if(request.method == "POST"):
+        idquote = request.POST.get('idquote',-1)
+
+    state = QuoteFunctions().addToFavorites(request.user, idquote)
+    response = {}
+    response['state'] = state
+
+    return JsonResponse(response)
