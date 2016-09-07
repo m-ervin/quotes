@@ -15,7 +15,7 @@ import json
 
 def home(request, idcategory = -1):
 
-    quotes = Quote.objects.all().order_by('-id').select_related()
+    quotes = Quote.objects.all().order_by('-id')
     if(idcategory != -1):
         quotes = quotes.filter(category__id = idcategory)
 
@@ -115,3 +115,22 @@ def addToFavorites(request):
     response['state'] = state
 
     return JsonResponse(response)
+
+def favorites(request):
+
+    favorites = Favorite.objects.filter(user=request.user).all()
+    quotes=[]
+    for favorite in favorites:
+        quotes.append(favorite.quote)
+
+    paginator = Paginator(quotes,5) #hány darab legyen oldalanként
+
+    page = request.GET.get('page')
+    try:
+        quotes = paginator.page(page)
+    except PageNotAnInteger:
+        quotes = paginator.page(1)
+    except EmptyPage: # pl. ha túl nagy az oldalszám
+        quotes = paginator.page(paginator.num_pages)
+
+    return render(request, 'quote/favorites.html',{'quotes': quotes})
