@@ -3,6 +3,7 @@ $backgroundColor: #eee;
 $color1: #ccc;
 $color2: #456aa7;
 $color3: #15142e;
+$color4: #5e5d5e;
 
 #main-container{
     margin: 20px auto;
@@ -73,6 +74,15 @@ $color3: #15142e;
 
     .quote-author{
         color: $color2;
+    }
+
+    .category-link-container{
+        margin-bottom: 15px;
+        font-size: 14px;
+
+        a{
+            color: $color4 !important;
+        }
     }
 
     .quote-option-menu{
