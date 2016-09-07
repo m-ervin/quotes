@@ -72,6 +72,10 @@ $color4: #5e5d5e;
     margin-bottom: 10px;
     border-radius: 5px;
 
+    &:hover .quote-option-menu{
+        display: block;
+    }
+
     .quote-author{
         color: $color2;
     }
@@ -97,6 +101,7 @@ $color4: #5e5d5e;
     }
 
     .quote-option-menu{
+        display: none;
         position: absolute;
         top: 10px;
         right: 10px;

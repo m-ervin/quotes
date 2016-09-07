@@ -42,6 +42,8 @@
   padding-right: 50px;
   margin-bottom: 10px;
   border-radius: 5px; }
+  .quote-container:hover .quote-option-menu {
+    display: block; }
   .quote-container .quote-author {
     color: #456aa7; }
   .quote-container .category-link-container {
@@ -57,6 +59,7 @@
     .quote-container .favorite-button i {
       font-size: 20px; }
   .quote-container .quote-option-menu {
+    display: none;
     position: absolute;
     top: 10px;
     right: 10px; }
