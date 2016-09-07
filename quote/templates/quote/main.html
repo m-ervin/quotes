@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <link rel="stylesheet" href={% static 'quote/css/style.min.css' %} >
   </head>
@@ -43,6 +43,7 @@
                     <li><a href="{% url 'categories' %}">Kategóriák</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
+                        <li><a href="{% url 'favorites' %}">Kedvencek</a></li>                        
                     {% endif %}
                 </ul>
             </nav>

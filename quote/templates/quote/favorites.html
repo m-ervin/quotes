@@ -31,11 +31,7 @@
     {% endif %}
 
     <div class='favorite-button' data-idquote="{{quote.id}}">
-        {% if quote.favorited %}
             <i class='fa fa-heart'></i>
-        {% else %}
-            <i class='fa fa-heart-o'></i>
-        {% endif %}
     </div>
 </div>
 {% endfor %}
@@ -58,6 +54,8 @@
         {% endif %}
 </ul>
 
+
 {% include 'quote/favoritesAjax.html' %}
+
 
 {% endblock %}
