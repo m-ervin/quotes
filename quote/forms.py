@@ -54,3 +54,7 @@ class QuoteForm(forms.Form):
         for field in self.fields.values():
             field.error_messages = {'required':'Nem lehet üres mező'.format(
                 fieldname = field.label)}
+
+class SearchForm(forms.Form):
+
+    key = forms.CharField(label = 'Keresés')

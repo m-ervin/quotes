@@ -41,3 +41,39 @@ class QuoteFunctions(object):
             favorited = True
 
         return favorited
+
+    def quoteSearch(self, idcategory, keywords):
+
+        keywords = keywords.split(' ')
+
+        keywords_array=[]
+        for keyword in keywords:
+            keyword = keyword.strip()
+            if(keyword):
+                keywords_array.append(keyword)
+
+        quotes = Quote.objects.all()
+        if(idcategory != -1):
+            quotes.filter(category__id=idcategory)
+
+        resultIds = {}
+        for keyword in keywords:
+            quotes2 = quotes.filter(quote__contains=keyword)
+            for quote in quotes2:
+                if (quote.id in resultIds):
+                    resultIds[quote.id] +=1
+                else:
+                    resultIds[quote.id] = 1
+
+        resultIds = sorted(resultIds, key=resultIds.get)
+        resultIds.reverse()
+
+        quotes = Quote.objects.filter(id__in = resultIds)
+
+        quotes_sorted = list()
+        for id in resultIds:
+            quotes_sorted.append(quotes.get(id=id))
+
+        quotes = quotes_sorted
+
+        return quotes

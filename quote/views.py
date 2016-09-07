@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .forms import RegistrationForm, QuoteForm
+from .forms import RegistrationForm, QuoteForm, SearchForm
 from .functions.userFunctions import UserFunctions
 from .functions.quoteFunctions import QuoteFunctions
 from .models import Quote, Category, Favorite
@@ -15,9 +15,9 @@ import json
 
 def home(request, idcategory = -1):
 
-    quotes = Quote.objects.all().order_by('-id')
-    if(idcategory != -1):
-        quotes = quotes.filter(category__id = idcategory)
+    keywords = request.GET.get('key','')
+
+    quotes = QuoteFunctions().quoteSearch(idcategory, keywords)
 
     paginator = Paginator(quotes,5) #hány darab legyen oldalanként
 
@@ -36,7 +36,9 @@ def home(request, idcategory = -1):
             favorited = False
         quote.favorited = favorited
 
-    return render(request, 'quote/home.html', {'quotes': quotes})
+    searchForm = SearchForm()
+
+    return render(request, 'quote/home.html', {'quotes': quotes, 'searchForm': searchForm})
 
 def logoutUser(request):
     logout(request)
