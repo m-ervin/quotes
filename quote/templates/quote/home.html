@@ -6,6 +6,9 @@
 
 {% for quote in quotes %}
 <div class='quote-container'>
+    <div class='category-link-container'>
+        <a href='{% url 'homepage_category' quote.category.id %}{{quote.category.name|urlencode|lower}}'>{{quote.category.name}}</a>
+    </div>
     <q class='quote-text'>{{quote.quote}}</q>
     <div class='quote-author'>{{quote.author}}</div>
     {% if quote.user == request.user %}
