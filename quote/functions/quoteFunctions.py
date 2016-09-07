@@ -54,7 +54,7 @@ class QuoteFunctions(object):
 
         quotes = Quote.objects.all()
         if(idcategory != -1):
-            quotes.filter(category__id=idcategory)
+            quotes = quotes.filter(category__id=idcategory)
 
         resultIds = {}
         for keyword in keywords:
