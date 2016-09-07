@@ -44,6 +44,9 @@
     </div>
 </div>
 {% endfor %}
+{% if not quotes %}
+    <div class="alert alert-warning">Nincs találat</div>
+{% endif %}
 
 {% include 'quote/pagination.html' %}
 {% include 'quote/favoritesAjax.html' %}
