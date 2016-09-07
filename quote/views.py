@@ -30,7 +30,10 @@ def home(request, idcategory = -1):
         quotes = paginator.page(paginator.num_pages)
 
     for quote in quotes:
-        favorited = Favorite.objects.filter(user=request.user, quote= quote).exists()
+        if(request.user.is_authenticated):
+            favorited = Favorite.objects.filter(user= request.user, quote= quote).exists()
+        else:
+            favorited = False
         quote.favorited = favorited
 
     return render(request, 'quote/home.html', {'quotes': quotes})
@@ -102,7 +105,7 @@ def deleteQuote(request):
 
 def addToFavorites(request):
     if(not request.user.is_authenticated):
-        redirect('homepage')
+        return redirect('homepage')
 
     if(request.method == "POST"):
         idquote = request.POST.get('idquote',-1)

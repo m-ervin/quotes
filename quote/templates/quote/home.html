@@ -60,29 +60,35 @@
 
 
 <script type='text/javascript'>
-    $('.favorite-button').click(function(){
-        let el = $(this).find('i');
-        let id = $(this).data('idquote');
-        $.ajax({
-            method: "POST",
-            dataType: "json",
-            url: "{% url 'addToFavorites' %}",
-            data: {
-                idquote: id,
-                csrfmiddlewaretoken: "{{csrf_token}}"
-            },
-            success: function(response){
-                if(response.state){
-                    el.addClass('fa-heart');
-                    el.removeClass('fa-heart-o')
+    {% if request.user.is_authenticated %}
+        $('.favorite-button').click(function(){
+            let el = $(this).find('i');
+            let id = $(this).data('idquote');
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: "{% url 'addToFavorites' %}",
+                data: {
+                    idquote: id,
+                    csrfmiddlewaretoken: "{{csrf_token}}"
+                },
+                success: function(response){
+                    if(response.state){
+                        el.addClass('fa-heart');
+                        el.removeClass('fa-heart-o')
+                    }
+                    else {
+                        el.addClass('fa-heart-o');
+                        el.removeClass('fa-heart')
+                    }
                 }
-                else {
-                    el.addClass('fa-heart-o');
-                    el.removeClass('fa-heart')
-                }
-            }
+            });
+        })
+    {% else %}
+        $('.favorite-button').click(function(){
+            alert('A kedvencekhez adás opcióhoz jelentkezz be');
         });
-    })
+    {% endif %}
 </script>
 
 
