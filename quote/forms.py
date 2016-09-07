@@ -3,7 +3,7 @@
 from django import forms
 from django.core.validators import EmailValidator, RegexValidator, MaxLengthValidator
 from django.contrib.auth.models import User
-from .models import Category
+from .models import Category, Quote
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Felhasználónév', max_length=30)
@@ -41,6 +41,13 @@ class RegistrationForm(forms.Form):
 
 
 class QuoteForm(forms.Form):
+
+    def clean(self):
+        if Quote.objects.filter(quote=self.cleaned_data.get('quote')).exists():
+            self.add_error('quote','Ez az idézet már szerepel az adatbázisban')
+
+        return self.cleaned_data
+
 
     categories=Category.objects.all()
     category = forms.ModelChoiceField(label = 'Kategória', queryset = categories, initial = 0)
