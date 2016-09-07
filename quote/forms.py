@@ -40,7 +40,7 @@ class RegistrationForm(forms.Form):
                 fieldname = field.label)}
 
 
-class AddQuoteForm(forms.Form):
+class QuoteForm(forms.Form):
 
     categories=Category.objects.all()
     category = forms.ModelChoiceField(label = 'Kategória', queryset = categories, initial = 0)
@@ -49,7 +49,7 @@ class AddQuoteForm(forms.Form):
 
 
     def __init__(self, *args, **kwargs):
-        super(AddQuoteForm, self).__init__(*args, **kwargs)
+        super(QuoteForm, self).__init__(*args, **kwargs)
 
         for field in self.fields.values():
             field.error_messages = {'required':'Nem lehet üres mező'.format(

@@ -1,0 +1,24 @@
+{% extends "quote/main.html" %}
+
+{% block title %}Idézet módosítása{% endblock %}
+
+{% block content %}
+
+<form novalidate id='modify-quote-form' method='POST'>
+    {% for field in form %}
+    <p>
+        <label>{{field.label}}</label>
+        {{field}}
+        <span class ='help-text'>{{field.help_text}}</span>
+        <span class ='errorlist'>{{field.errors.as_text|cut:'*'}}</span>
+    </p>
+    {% endfor %}
+    <input class='btn btn-primary' type ='submit' name='modifyQuote' value='Küldés' />
+    <input class='btn btn-primary' type='submit' name='reset' value='Visszaállít' />
+    {% csrf_token %}
+</form>
+    {% if success == True %}
+        <br /><div class='alert alert-success'>Az idézet sikeresen módosítva</div>
+    {% endif %}
+
+{% endblock %}

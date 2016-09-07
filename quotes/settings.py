@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'quotes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'quotes',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'quotes_user',
+        'PASSWORD': 'quotes12345',
+        'HOST': '',
+        'PORT': '5433',
     }
 }
 

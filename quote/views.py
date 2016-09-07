@@ -3,11 +3,12 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .forms import RegistrationForm, AddQuoteForm
+from .forms import RegistrationForm, QuoteForm
 from .functions.userFunctions import UserFunctions
 from .functions.quoteFunctions import QuoteFunctions
 from .models import Quote, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.forms.models import model_to_dict
 # Create your views here.
 
 def home(request, idcategory = -1):
@@ -33,6 +34,8 @@ def logoutUser(request):
     return redirect('homepage')
 
 def registration(request):
+    if (request.user.is_authenticated ):
+        return redirect ('homepage')
     form = RegistrationForm()
 
     registerSuccess = False
@@ -52,17 +55,41 @@ def addQuote(request):
         return redirect('homepage')
 
     addQuoteSuccess = False
-    form = AddQuoteForm()
+    form = QuoteForm()
     if(request.method == "POST"):
         if 'addQuote' in request.POST:
-            form = AddQuoteForm(request.POST)
+            form = QuoteForm(request.POST)
             if(form.is_valid()):
                 form_data=name=form.cleaned_data
                 addQuoteSuccess = QuoteFunctions().addQuote( request.user, form_data['category'], form_data['quote'], form_data['author'])
-                form = AddQuoteForm
+                form = QuoteForm
 
     return render(request, 'quote/addQuote.html', {'form': form, 'success': addQuoteSuccess })
 
 def categories(request):
     categories = Category.objects.all().order_by("name")
     return render(request, 'quote/categories.html', {'categories': categories})
+
+def quoteModify(request, idquote):
+    quote = Quote.objects.filter(id = idquote).get()
+    if (quote.user != request.user):
+        return redirect('homepage')
+
+    modifySuccess = False
+    form = QuoteForm(initial = model_to_dict(quote))
+    if(request.method == "POST"):
+        if 'modifyQuote' in request.POST:
+            form = QuoteForm(request.POST)
+            if(form.is_valid()):
+                form_data=name=form.cleaned_data
+                modifySuccess = QuoteFunctions().modifyQuote(quote.id, form_data['category'], form_data['quote'], form_data['author'])
+
+    return render(request, 'quote/quoteModify.html', {'form': form, 'success': modifySuccess})
+
+def deleteQuote(request):
+    deleteSuccess = False
+    next = request.POST.get('next','/')
+    if(request.method == "POST"):
+        idQuote = request.POST.get('id','')
+        deleteSuccess = QuoteFunctions().deleteQuote(request.user, idQuote)
+    return redirect(next)

@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from ..models import Category, Quote
+from django.shortcuts import get_object_or_404
 
 class QuoteFunctions(object):
 
@@ -12,7 +13,20 @@ class QuoteFunctions(object):
         q.save()
         return True
 
-        # subject = 'Aktivációs email'
-        # message = 'aktivacio'
-        # toEmail = 'ervinmartatic@gmail.com'
-        # send_mail(subject, message, 'quotes@gmail.com',[toEmail], fail_silently = False)
+    def modifyQuote(self, idQuote, category, text, author):
+        if not author:
+            author = 'Ismeretlen'
+        quote = Quote.objects.filter(id=idQuote).get()
+        quote.category = category
+        quote.quote = text
+        quote.author = author
+        quote.save()
+        return True
+
+    def deleteQuote(self, user, idQuote):
+        quote = get_object_or_404(Quote, id = idQuote)
+        if( quote.user != user ):
+            return False
+
+        quote.delete()
+        return True

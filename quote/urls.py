@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^regisztracio/$', views.registration, name='registration'),
     url(r'^uj_idezet/$', views.addQuote, name="addQoute"),
     url(r'^kategoriak/$', views.categories, name="categories"),
-    url(r'^kategoria/(?P<idcategory>[0-9]+)/.*$', views.home, name="homepage_category")
+    url(r'^kategoria/(?P<idcategory>[0-9]+)/.*$', views.home, name="homepage_category"),
+    url(r'^idezet_modositas/(?P<idquote>[0-9]+)/.*$', views.quoteModify, name="quoteModify"),
+    url(r'^idezet_torles/$', views.deleteQuote, name='deleteQuote')
 ]
