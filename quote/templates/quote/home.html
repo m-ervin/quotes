@@ -4,6 +4,11 @@
 
 {% block content %}
 
+<form method="GET" action='' id='search-form'>
+    {{searchForm.as_p}}
+    <button type='submit' class='btn btn-primary' ><i class='fa fa-search'></i></button>
+</form>
+
 {% for quote in quotes %}
 <div class='quote-container'>
     <div class='category-link-container'>

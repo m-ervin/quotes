@@ -85,4 +85,9 @@
   line-height: 50px;
   padding-left: 20px; }
 
+#search-form {
+  margin-bottom: 10px; }
+  #search-form > p {
+    display: inline; }
+
 /*# sourceMappingURL=style.min.css.map */

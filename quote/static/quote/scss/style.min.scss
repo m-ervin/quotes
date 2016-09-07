@@ -145,3 +145,12 @@ $color4: #5e5d5e;
     }
 
 }
+
+
+#search-form{
+    margin-bottom: 10px;
+
+    &>p{
+        display: inline;
+    }
+}
