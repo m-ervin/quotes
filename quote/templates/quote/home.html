@@ -45,24 +45,7 @@
 </div>
 {% endfor %}
 
-<ul class="pagination">
-        {% if quotes.has_previous %}
-            <li><a href="?page={{ quotes.previous_page_number }}">&lt;&lt;</a></li>
-        {% endif %}
-
-        {% for i in quotes.paginator.page_range %}
-            {% if i == quotes.number %}
-                <li class='active'><a href="?page={{ i }}">{{ i }}</a></li>
-            {% else %}
-                <li><a href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %}
-        {% endfor %}
-
-        {% if quotes.has_next %}
-            <li><a href="?page={{ quotes.next_page_number }}">&gt;&gt;</a></li>
-        {% endif %}
-</ul>
-
+{% include 'quote/pagination.html' %}
 {% include 'quote/favoritesAjax.html' %}
 
 {% endblock %}
