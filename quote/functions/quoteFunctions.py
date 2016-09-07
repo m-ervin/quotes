@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.auth.models import User
-from ..models import Category, Quote
+from ..models import Category, Quote, Favorite
 from django.shortcuts import get_object_or_404
 
 class QuoteFunctions(object):
@@ -30,3 +30,14 @@ class QuoteFunctions(object):
 
         quote.delete()
         return True
+
+    def addToFavorites(self, user, idquote):
+        quote = get_object_or_404(Quote, id = idquote)
+        obj, created = Favorite.objects.get_or_create(user=user, quote=quote)
+        if (created == False):
+            obj.delete()
+            favorited = False
+        else:
+            favorited = True
+
+        return favorited
