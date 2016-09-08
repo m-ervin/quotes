@@ -2,6 +2,8 @@
   margin: 20px auto;
   width: 1000px;
   background-color: #eee; }
+  #main-container #right-container {
+    padding: 20px; }
 
 #content-container {
   padding: 20px; }

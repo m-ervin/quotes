@@ -48,7 +48,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'quote.middleware.login_middleware.LoginMiddleware'
+    'quote.middleware.login_middleware.LoginMiddleware',
+    'quote.middleware.globals_middleware.GlobalsMiddleware'
 ]
 
 ROOT_URLCONF = 'quotes.urls'

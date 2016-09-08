@@ -43,13 +43,30 @@
                     <li><a href="{% url 'categories' %}">Kategóriák</a></li>
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
-                        <li><a href="{% url 'favorites' %}">Kedvencek</a></li>                        
+                        <li><a href="{% url 'favorites' %}">Kedvencek</a></li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
-        <div id='content-container'>
-          {% block content %}{% endblock %}
+            <div class='row'>
+                <div class='col-lg-3'>
+                    <div id='content-container'>
+                      <ul class="nav nav-pills nav-stacked">
+                          <li class="nav-item"><a href="{% url 'homepage' %}">Összes</a></li>
+                        {% for category in request.categories %}
+                            <li class="nav-item">
+                              <a href="{% url 'homepage_category' category.id %}{{category.name|urlencode|lower}}" class="nav-link">{{category.name}}</a>
+                            </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class='col-lg-9'>
+                    <div id='right-container'>
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+          </div>
         </div>
         <div id='footer'>
         </div>
