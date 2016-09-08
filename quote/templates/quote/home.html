@@ -1,4 +1,5 @@
 {% extends "quote/main.html" %}
+{% load my_filters %}
 
 {% block title %}Idézetek{% endblock %}
 
@@ -14,7 +15,7 @@
     <div class='category-link-container'>
         <a href='{% url 'homepage_category' quote.category.id %}{{quote.category.name|urlencode|lower}}'>{{quote.category.name}}</a>
     </div>
-    <q class='quote-text'>{{quote.quote}}</q>
+    <p class='quote-text'>{{quote.quote|quote}}</p>
     <div class='quote-author'>{{quote.author}}</div>
 
     {% if quote.user == request.user %}
