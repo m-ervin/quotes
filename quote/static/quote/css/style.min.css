@@ -92,4 +92,9 @@
   #search-form > p {
     display: inline; }
 
+.page_title {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: #15142e; }
+
 /*# sourceMappingURL=style.min.css.map */
