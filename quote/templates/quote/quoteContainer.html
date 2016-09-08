@@ -1,0 +1,35 @@
+{% load my_filters %}
+
+<div class='quote-container'>
+    <div class='category-link-container'>
+        <a href='{% url 'homepage_category' quote.category.id %}{{quote.category.name|urlencode|lower}}'>{{quote.category.name}}</a>
+    </div>
+    <p class='quote-text'>{{quote.quote|quote}}</p>
+    <div class='quote-author'>{{quote.author}}</div>
+
+    {% if quote.user == request.user %}
+        <div class="dropdown quote-option-menu">
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button"
+            data-toggle="dropdown"><i class='fa fa-bars'></i></button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'quoteModify' quote.id %}">Módosítás</a></li>
+                    <li>
+                        <form method='POST' action='{% url 'deleteQuote' %}' class='delete-form'>
+                            <input type='hidden' name='id' value='{{quote.id}}' />
+                            <input type='hidden' name='next' value={{request.get_full_path}} />
+                            <input type='submit' nane='deleteQuote' value='Törlés' />
+                            {% csrf_token %}
+                        </form>
+                    </li>
+                </ul>
+       </div>
+    {% endif %}
+
+    <div class='favorite-button' data-idquote="{{quote.id}}">
+        {% if quote.favorited %}
+            <i class='fa fa-heart'></i>
+        {% else %}
+            <i class='fa fa-heart-o'></i>
+        {% endif %}
+    </div>
+</div>

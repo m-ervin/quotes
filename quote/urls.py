@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^idezet_modositas/(?P<idquote>[0-9]+)/.*$', views.quoteModify, name="quoteModify"),
     url(r'^idezet_torles/$', views.deleteQuote, name='deleteQuote'),
     url(r'^kedvencekhez/$', views.addToFavorites, name='addToFavorites'),
-    url(r'^kedvencek/$', views.favorites, name='favorites' )
+    url(r'^kedvencek/$', views.favorites, name='favorites' ),
+    url(r'^sajat_idezetek/$', views.myQuotes, name='myQuotes')
 ]

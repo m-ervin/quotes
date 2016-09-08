@@ -140,3 +140,10 @@ EMAIL_PORT = 1025
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
+
+
+
+
+
+# Custom settings
+QUOTES_PER_PAGE = 5

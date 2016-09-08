@@ -44,6 +44,7 @@
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
                         <li><a href="{% url 'favorites' %}">Kedvencek</a></li>
+                        <li><a href="{% url 'myQuotes' %}">Saját idézetek</a></li>
                     {% endif %}
                 </ul>
             </nav>

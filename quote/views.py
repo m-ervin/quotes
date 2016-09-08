@@ -11,6 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 import json
+from django.conf import settings
 # Create your views here.
 
 def home(request, idcategory = -1):
@@ -19,7 +20,7 @@ def home(request, idcategory = -1):
 
     quotes = QuoteFunctions().quoteSearch(idcategory, keywords)
 
-    paginator = Paginator(quotes,5) #hány darab legyen oldalanként
+    paginator = Paginator(quotes, settings.QUOTES_PER_PAGE) #hány darab legyen oldalanként
 
     page = request.GET.get('page')
     try:
@@ -125,7 +126,7 @@ def favorites(request):
     for favorite in favorites:
         quotes.append(favorite.quote)
 
-    paginator = Paginator(quotes,5) #hány darab legyen oldalanként
+    paginator = Paginator(quotes, settings.QUOTES_PER_PAGE) #hány darab legyen oldalanként
 
     page = request.GET.get('page')
     try:
@@ -136,3 +137,19 @@ def favorites(request):
         quotes = paginator.page(paginator.num_pages)
 
     return render(request, 'quote/favorites.html',{'quotes': quotes})
+
+def myQuotes(request):
+
+    quotes = Quote.objects.filter(user = request.user)
+
+    paginator = Paginator(quotes, settings.QUOTES_PER_PAGE) #hány darab legyen oldalanként
+
+    page = request.GET.get('page')
+    try:
+        quotes = paginator.page(page)
+    except PageNotAnInteger:
+        quotes = paginator.page(1)
+    except EmptyPage: # pl. ha túl nagy az oldalszám
+        quotes = paginator.page(paginator.num_pages)
+
+    return render(request, 'quote/myQuotes.html', {'quotes': quotes})
