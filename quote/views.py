@@ -173,7 +173,14 @@ def myProfile(request):
     return render(request, 'quote/user/myProfile.html', {'form': form, 'success': modifySuccess})
 
 def profilePicture(request):
+
+    uploadSuccess = False
+
     form = pictureUploadForm()
     if(request.method == "POST"):
-        uploadSuccess = UserFunctions().uploadProfilePicture( request.user, request.FILES['profilePicture'])
-    return render(request, 'quote/user/profilePicture.html', {'form': form})
+            uploadSuccess = UserFunctions().uploadProfilePicture( request.user, request.FILES)
+
+    profile = UserProfile.objects.get(user = request.user)
+    profilePicture = profile.profilePicture
+
+    return render(request, 'quote/user/profilePicture.html', {'form': form, 'success': uploadSuccess, 'profilePicture': profilePicture})

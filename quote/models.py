@@ -6,7 +6,7 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User)
     lastName = models.CharField(max_length=30)
     firstName = models.CharField(max_length=30)
-    profilePicture = models.FileField(blank=True)
+    profilePicture = models.FileField(blank=True, upload_to='profile_pictures')
 
     def __unicode__(self):
         return self.user.username

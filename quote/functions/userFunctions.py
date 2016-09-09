@@ -2,6 +2,8 @@
 
 from django.contrib.auth.models import User
 from ..models import UserProfile
+import os.path
+from django.conf import settings
 
 class UserFunctions(object):
 
@@ -30,9 +32,15 @@ class UserFunctions(object):
 
     def uploadProfilePicture(self, user, picture):
 
-        print(picture)
+        if(not picture):
+            return False
+
         profile, p = UserProfile.objects.get_or_create(user = user)
-        profile.profilePicture = picture
-        # picture.save()
+        file_path = settings.MEDIA_ROOT + profile.profilePicture.name
+        if(os.path.isfile(file_path)):
+            os.remove(file_path)
+
+        profile.profilePicture = picture['profilePicture']
+        profile.save()
 
         return True

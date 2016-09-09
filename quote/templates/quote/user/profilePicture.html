@@ -1,24 +1,36 @@
 {% extends "quote/main.html" %}
+{% load static from staticfiles %}
 
 {% block title %}Profilkép{% endblock %}
 
 {% block content %}
 
-<div class = 'page_title'>Profilkép</div>
+<div class='row'>
+    <div class='col-lg-6'>
+        <div class = 'page_title'>Profilkép</div>
+        <form id='pictureUploadForm' novalidate action='' method="POST"  enctype="multipart/form-data">
+            {% for field in form %}
+            <p>
+                <label>{{field.label}}:</label>
+                {{field}}
+                <span class='errorlist'>{{field.errors.as_text|cut:'*'}}</span>
+            </p>
+            {% endfor %}
+            {% csrf_token %}
+            <input type='submit' name='upload' value='Feltöltés' class='btn btn-primary' />
+        </form>
+        {% if success %}
+            <br /><div class='alert alert-success'>Sikeres feltöltés</div>
+        {% endif %}
+    </div>
+    <div class='col-lg-6'>
+        {% if profilePicture %}
+            <a href="/media/{{profilePicture}}"><img id="big_profile_picture" alt="profilePicture" src="/media/{{profilePicture}}" /></a>
+        {% else %}
+            <img src="{% static 'quote/media/site_pictures/user.png' %}" />
+        {% endif %}
+    </div>
+</div>
 
-<form id='pictureUploadForm' novalidate action='' method="POST"  enctype="multipart/form-data">
-    {% for field in form %}
-    <p>
-        <label>{{field.label}}:</label>
-        {{field}}
-        <span class='errorlist'>{{field.errors.as_text|cut:'*'}}</span>
-    </p>
-    {% endfor %}
-    {% csrf_token %}
-    <input type='submit' name='upload' value='Feltöltés' class='btn btn-primary' />
-</form>
-{% if success %}
-    <br /><div class='alert alert-success'>Sikeres feltöltés</div>
-{% endif %}
 
 {% endblock %}
