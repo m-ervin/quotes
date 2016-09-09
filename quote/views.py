@@ -3,10 +3,10 @@
 from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-from .forms import RegistrationForm, QuoteForm, SearchForm
+from .forms import RegistrationForm, QuoteForm, SearchForm, ProfileModifyForm, pictureUploadForm
 from .functions.userFunctions import UserFunctions
 from .functions.quoteFunctions import QuoteFunctions
-from .models import Quote, Category, Favorite
+from .models import Quote, Category, Favorite, UserProfile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
@@ -57,10 +57,11 @@ def registration(request):
             form = RegistrationForm(request.POST)
             if(form.is_valid()):
                 form_data=name=form.cleaned_data
-                registerSuccess = UserFunctions().registerUser(form_data['username'], form_data['email'], form_data['password1'])
+                registerSuccess = UserFunctions().registerUser(form_data['username'], form_data['email'], form_data['password1'],
+                form_data['firstName'], form_data['lastName'])
                 form = RegistrationForm
 
-    return render(request, 'quote/registration.html', {'form': form, 'success': registerSuccess})
+    return render(request, 'quote/user/registration.html', {'form': form, 'success': registerSuccess})
 
 def addQuote(request):
     if(not request.user.is_authenticated):
@@ -88,10 +89,10 @@ def quoteModify(request, idquote):
         return redirect('homepage')
 
     modifySuccess = False
-    form = QuoteForm(initial = model_to_dict(quote))
+    form = QuoteForm(initial = model_to_dict(quote), quote = quote)
     if(request.method == "POST"):
         if 'modifyQuote' in request.POST:
-            form = QuoteForm(request.POST)
+            form = QuoteForm(request.POST, quote = quote)
             if(form.is_valid()):
                 form_data=name=form.cleaned_data
                 modifySuccess = QuoteFunctions().modifyQuote(quote.id, form_data['category'], form_data['quote'], form_data['author'])
@@ -145,11 +146,34 @@ def myQuotes(request):
     paginator = Paginator(quotes, settings.QUOTES_PER_PAGE) #hány darab legyen oldalanként
 
     page = request.GET.get('page')
-    try:
-        quotes = paginator.page(page)
-    except PageNotAnInteger:
-        quotes = paginator.page(1)
-    except EmptyPage: # pl. ha túl nagy az oldalszám
-        quotes = paginator.page(paginator.num_pages)
+    quotes = paginator.page(paginator.num_pages)
 
     return render(request, 'quote/myQuotes.html', {'quotes': quotes})
+
+
+def myProfile(request):
+    try:
+        profile = UserProfile.objects.filter(user = request.user).get()
+        profile = model_to_dict(profile)
+    except:
+        profile = {}
+
+    userData = model_to_dict(request.user)
+    userData.update(profile)
+
+    form = ProfileModifyForm(initial = userData, user = request.user)
+
+    modifySuccess = False
+
+    if(request.method == "POST"):
+        form = ProfileModifyForm(request.POST, user = request.user)
+        if (form.is_valid()):
+            modifySuccess = UserFunctions().modifyUserProfile( request.user, form.cleaned_data )
+
+    return render(request, 'quote/user/myProfile.html', {'form': form, 'success': modifySuccess})
+
+def profilePicture(request):
+    form = pictureUploadForm()
+    if(request.method == "POST"):
+        uploadSuccess = UserFunctions().uploadProfilePicture( request.user, request.FILES['profilePicture'])
+    return render(request, 'quote/user/profilePicture.html', {'form': form})

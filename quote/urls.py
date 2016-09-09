@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^idezet_torles/$', views.deleteQuote, name='deleteQuote'),
     url(r'^kedvencekhez/$', views.addToFavorites, name='addToFavorites'),
     url(r'^kedvencek/$', views.favorites, name='favorites' ),
-    url(r'^sajat_idezetek/$', views.myQuotes, name='myQuotes')
+    url(r'^sajat_idezetek/$', views.myQuotes, name='myQuotes'),
+    url(r'^sajat_profilom/$', views.myProfile, name='myProfile'),
+    url(r'^profilkep/$', views.profilePicture, name='profilePicture')
 ]

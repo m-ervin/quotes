@@ -1,0 +1,22 @@
+{% extends "quote/main.html" %}
+
+{% block title %}Regisztráció{% endblock %}
+
+{% block content %}
+
+<form id='registrationForm' novalidate action='' method="POST" >
+    {% for field in form %}
+    <p>
+        <label>{{field.label}}:</label>
+        {{field}}
+        <span class='errorlist'>{{field.errors.as_text|cut:'*'}}</span>
+    </p>
+    {% endfor %}
+    {% csrf_token %}
+    <input type='submit' name='register' value='Regisztráció' class='btn btn-primary' />
+</form>
+{% if success %}
+    <br /><div class='alert alert-success'>Sikeres regisztráció</div>
+{% endif %}
+
+{% endblock %}

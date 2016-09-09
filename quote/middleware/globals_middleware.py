@@ -8,4 +8,6 @@ class GlobalsMiddleware(MiddlewareMixin):
         categories = Category.objects.all()
         request.categories = categories
 
+        request.showSideMenuUrls = ['homepage', 'homepage_category']
+
         return

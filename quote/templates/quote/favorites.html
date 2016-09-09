@@ -10,6 +10,10 @@
     {% include 'quote/quoteContainer.html' %}
 {% endfor %}
 
+{% if not quotes %}
+    <div class='alert alert-warning'>Nincsenek kedvencek</a>
+{% endif %}
+
 {% include 'quote/paginator/pagination.html' %}
 {% include 'quote/ajax/favoritesAjax.html' %}
 

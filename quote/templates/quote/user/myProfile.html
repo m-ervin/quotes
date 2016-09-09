@@ -1,0 +1,24 @@
+{% extends "quote/main.html" %}
+
+{% block title %}Saját profilom{% endblock %}
+
+{% block content %}
+
+<div class = 'page_title'>Profil adatok</div>
+
+    <form id='profileForm' novalidate action='' method="POST" >
+        {% for field in form %}
+        <p>
+            <label>{{field.label}}:</label>
+            {{field}}
+            <span class='errorlist'>{{field.errors.as_text|cut:'*'}}</span>
+        </p>
+        {% endfor %}
+        {% csrf_token %}
+        <input type='submit' name='modify' value='Módosítás' class='btn btn-primary' />
+    </form>
+    {% if success %}
+        <br /><div class='alert alert-success'>Sikeresen módosítva</div>
+    {% endif %}
+
+{% endblock %}

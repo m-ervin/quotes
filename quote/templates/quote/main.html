@@ -45,11 +45,19 @@
                         <li><a href="{% url 'addQoute' %}">Új idézet hozzáadása</a></li>
                         <li><a href="{% url 'favorites' %}">Kedvencek</a></li>
                         <li><a href="{% url 'myQuotes' %}">Saját idézetek</a></li>
+                        <li>
+                            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Saját profilom</a>
+                            <ul class='dropdown-menu'>
+                                <li><a href='{% url 'myProfile' %}'>Profil adatok</a></li>
+                                <li><a href='{% url 'profilePicture' %}'>Profilkép</a></li>    
+                            </ul>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
             <div class='row'>
+                {% if request.resolver_match.url_name in request.showSideMenuUrls  %}
                 <div class='col-lg-3'>
                     <div id='content-container'>
                       <ul class="nav nav-pills nav-stacked">
@@ -62,11 +70,18 @@
                       </ul>
                     </div>
                 </div>
+                {% endif %}
+
+                {% if request.resolver_match.url_name in request.showSideMenuUrls  %}
                 <div class='col-lg-9'>
+                {% else %}
+                <div class='col-lg-12'>
+                {% endif %}
                     <div id='right-container'>
                         {% block content %}{% endblock %}
                     </div>
                 </div>
+
           </div>
         </div>
         <div id='footer'>
